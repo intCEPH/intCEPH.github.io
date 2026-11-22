@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plan du site · CETEFMAP</title>
+    <meta
+      name="description"
+      content="Plan interactif du site : trouvez un stand ou un service, voyez où il se trouve et laissez-vous guider à pied, dehors comme dans les bâtiments."
+    />
+    <meta name="theme-color" content="#111111" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CETEFMAP" />
+    <meta property="og:title" content="Plan du site · CETEFMAP" />
+    <meta
+      property="og:description"
+      content="Trouvez un stand ou un service et laissez-vous guider jusqu'à lui."
+    />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
+    <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
+<link rel="preload" as="style" href="/assets/carte-D5lf0kVr.css"/>
+<link rel="modulepreload" href="/assets/carte-DY-dgnY-.js"/>
+<link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
+<link rel="modulepreload" href="/assets/snap-DsGvcq-C.js"/>
+<link rel="stylesheet" href="/assets/carte-D5lf0kVr.css"/>
+<script type="module" defer src="/assets/carte-DY-dgnY-.js"></script>
+<link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
+  </head>
+  <body>
+    <main
+      class="carte"
+      x-data="carteViewer"
+      data-url="/carte/data.json"
+      data-fiche-url="/carte/fiche/__ID__.json"
+      data-interior-url="/carte/interior/__ID__.json"
+      data-network-url="/carte/reseau.json"
+    >
+      <div class="carte__map" x-ref="map"></div>
+
+      <div class="carte__bar" :class="{ 'with-drawer': fiche }">
+        <label class="carte__search">
+          <span class="carte__sr">Rechercher un stand, un bâtiment ou un service</span>
+          <input
+            type="search"
+            placeholder="Rechercher un stand, un bâtiment, des toilettes…"
+            x-model="query"
+            x-on:input="search()"
+          />
+        </label>
+        <button
+          type="button"
+          class="carte__chip carte__chip--legend"
+          x-show="families.length > 0"
+          x-cloak
+          :class="{ 'is-on': legendOpen || family }"
+          :aria-expanded="legendOpen.toString()"
+          aria-controls="carte-legend"
+          x-on:click="legendOpen = !legendOpen"
+        >
+          <span class="carte__dots" aria-hidden="true">
+            <template x-for="f in families.slice(0, 4)" :key="f.id">
+              <i :style="`background:${f.fill}`"></i>
+            </template>
+          </span>
+          Secteurs
+        </button>
+        <div class="carte__essentiels" x-show="essentiels.length > 0" x-cloak role="group" aria-label="Lieux essentiels">
+          <template x-for="e in essentiels" :key="e.id">
+            <button
+              type="button"
+              class="carte__chip carte__chip--essentiel"
+              :class="{ 'is-on': essentiel === e.id }"
+              :aria-pressed="(essentiel === e.id).toString()"
+              x-on:click="pickEssentiel(e.id)"
+              x-text="e.label"
+            ></button>
+          </template>
+        </div>
+        <div class="carte__cats" x-show="categories.length > 0" x-cloak role="group" aria-label="Filtrer par type">
+          <template x-for="c in categories" :key="c.id">
+            <button
+              type="button"
+              class="carte__chip"
+              :class="{ 'is-on': category === c.id }"
+              :aria-pressed="(category === c.id).toString()"
+              x-on:click="pickCategory(c.id)"
+              x-text="c.label"
+            ></button>
+          </template>
+        </div>
+        <ul class="carte__results" x-show="results.length > 0" x-cloak>
+          <template x-for="r in results" :key="r.id">
+            <li>
+              <button type="button" x-on:click="openFiche(r.id, true)">
+                <strong x-text="r.title || r.name"></strong>
+                <span x-text="[place(r) || r.where, r.sector || r.category, ...r.tags].filter(Boolean).join(' · ')"></span>
+              </button>
+            </li>
+          </template>
+        </ul>
+        <p class="carte__loading" x-show="loading" x-cloak>Chargement du plan…</p>
+      </div>
+
+      <section
+        id="carte-legend"
+        class="carte__legend"
+        :class="{ 'with-drawer': fiche }"
+        x-show="legendOpen && families.length > 0"
+        x-cloak
+        aria-label="Légende : secteurs d'activité"
+      >
+        <header>
+          <strong>Secteurs d’activité</strong>
+          <button type="button" class="carte__x" aria-label="Fermer la légende" x-on:click="legendOpen = false">×</button>
+        </header>
+        <ul>
+          <template x-for="f in families" :key="f.id">
+            <li>
+              <button
+                type="button"
+                :class="{ 'is-on': family === f.id }"
+                :aria-pressed="(family === f.id).toString()"
+                x-on:click="pickFamily(f.id)"
+              >
+                <i :style="`background:${f.fill}; box-shadow: inset 0 0 0 1.5px ${f.stroke}`"></i>
+                <span x-text="f.label"></span>
+                <small x-text="familyCount(f.id)"></small>
+              </button>
+            </li>
+          </template>
+        </ul>
+        <button type="button" class="carte__reset" x-show="family" x-cloak x-on:click="pickFamily(family)">
+          Tout afficher
+        </button>
+      </section>
+
+      <button
+        type="button"
+        class="carte__locate"
+        :class="{ 'is-on': locating, 'with-sheet': routeOpen || fiche }"
+        :aria-pressed="locating.toString()"
+        aria-label="Ma position"
+        title="Ma position"
+        x-on:click="locateMe()"
+      >
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.5" fill="currentColor" />
+          <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" />
+          <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="2" />
+        </svg>
+      </button>
+      <div
+        class="carte__where"
+        :class="{ 'with-sheet': routeOpen || fiche }"
+        x-show="placement"
+        x-cloak
+      >
+        <span x-text="placementText()" role="status"></span>
+        <button type="button" class="carte__linkbtn" x-on:click="shareMyPosition()">
+          Envoyer ma position
+        </button>
+      </div>
+      <section
+        class="carte__outside"
+        x-show="placement && placement.where === 'outside' && !outsideDismissed"
+        x-cloak
+        aria-label="Vous êtes hors du site"
+      >
+        <strong>Vous êtes hors du site</strong>
+        <span x-text="'À ' + placementText().replace('Hors du site · ', '') + ' de l’enceinte.'"></span>
+        <div class="carte__actions">
+          <a class="carte__btn carte__btn--main" :href="comeUrl()" target="_blank" rel="noopener">
+            Comment venir
+          </a>
+          <button type="button" class="carte__btn" x-on:click="showSite()">Voir le site</button>
+          <button type="button" class="carte__btn" x-on:click="outsideDismissed = true">Fermer</button>
+        </div>
+      </section>
+      <p class="carte__error carte__toast" x-show="geoError" x-cloak x-text="geoError" role="alert"></p>
+
+      <div class="carte__levels" x-show="opened" x-cloak role="toolbar" aria-label="Étages du bâtiment">
+        <strong class="carte__levelname" x-text="opened ? opened.name || 'Bâtiment' : ''"></strong>
+        <template x-for="l in (opened ? opened.levels : [])" :key="l.id">
+          <button
+            type="button"
+            class="carte__chip"
+            :class="{ 'is-on': l.id === level }"
+            :aria-pressed="(l.id === level).toString()"
+            x-on:click="selectLevel(l.id)"
+            x-text="l.name"
+          ></button>
+        </template>
+        <button type="button" class="carte__chip" x-on:click="closeBuilding()">Quitter</button>
+      </div>
+
+      <aside
+        class="carte__panel carte__fiche"
+        :class="{ 'is-open': fiche, 'is-dragging': sheetDragging, 'is-bare': ficheView && ficheBare(ficheView) }"
+        :style="sheetStyle()"
+        :aria-hidden="(!fiche).toString()"
+        :inert="!fiche"
+        aria-label="Fiche du stand"
+      >
+        <template x-if="ficheView">
+          <div class="fs">
+            <!-- 1. Photo de couverture, pleine largeur -->
+            <div class="fs__cover">
+              <!-- Les photos d'illustration défilent ici ; sans photo, la zone verte ne change pas. -->
+              <div
+                class="fs__slides"
+                x-show="photos(ficheView).length > 0"
+                aria-roledescription="carrousel"
+                aria-label="Photos du stand"
+                x-on:scroll.passive="coverScrolled($event)"
+                x-on:pointerdown="coverPause()"
+                x-on:mouseenter="coverHover = true"
+                x-on:mouseleave="coverHover = false"
+              >
+                <template x-for="(p, i) in photos(ficheView)" :key="p.url">
+                  <div class="fs__slide" role="group" :aria-label="'Photo ' + (i + 1) + ' sur ' + photos(ficheView).length">
+                    <img :src="p.url" :style="coverStyle(p)" :loading="i === 0 ? 'eager' : 'lazy'" alt="" draggable="false" />
+                  </div>
+                </template>
+              </div>
+              <template x-if="photos(ficheView).length > 1">
+                <div>
+                  <button type="button" class="fs__nav fs__nav--prev" aria-label="Photo précédente" x-on:click="coverGo(coverIndex - 1, true)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+                  </button>
+                  <button type="button" class="fs__nav fs__nav--next" aria-label="Photo suivante" x-on:click="coverGo(coverIndex + 1, true)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                  </button>
+                  <div class="fs__dots">
+                    <template x-for="(p, i) in photos(ficheView)" :key="'d' + p.url">
+                      <button
+                        type="button"
+                        :class="{ 'is-on': i === coverIndex }"
+                        :aria-label="'Afficher la photo ' + (i + 1)"
+                        :aria-current="(i === coverIndex).toString()"
+                        x-on:click="coverGo(i, true)"
+                      ></button>
+                    </template>
+                  </div>
+                </div>
+              </template>
+              <div
+                class="fs__grab"
+                aria-hidden="true"
+                x-on:pointerdown="sheetDown($event)"
+                x-on:pointermove="sheetMove($event)"
+                x-on:pointerup="sheetUp($event)"
+                x-on:pointercancel="sheetUp($event)"
+              >
+                <span></span>
+              </div>
+              <button type="button" class="fs__close" x-on:click="closeFiche()" aria-label="Fermer la fiche">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+            </div>
+
+            <!-- 2. Titre : logo, nom du stand, contact, lieu -->
+            <div class="fs__title">
+              <div class="fs__logo">
+                <img x-show="ficheView.logoUrl && ficheView.showLogo !== false" :src="ficheView.logoUrl" alt="Logo" />
+                <span x-show="!(ficheView.logoUrl && ficheView.showLogo !== false)" x-text="ficheInitials(ficheView)"></span>
+              </div>
+              <div class="fs__heading">
+                <h1 x-text="ficheView.title || ficheView.name"></h1>
+                <p class="fs__who" x-show="ficheView.contactName" x-text="ficheView.contactName"></p>
+                <p class="fs__sub" x-show="ficheSub(ficheView)" x-text="ficheSub(ficheView)"></p>
+              </div>
+            </div>
+
+            <!-- 3. Actions : un bouton principal pleine largeur -->
+            <div class="fs__actions">
+              <button type="button" class="fs__main" x-show="canRoute" x-on:click="routeTo(ficheView.id)">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+                Itinéraire
+              </button>
+              <div class="fs__sec" :class="{ 'is-bare': ficheBare(ficheView) }">
+                <button type="button" aria-label="Partager" x-on:click="share()">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg>
+                  <span>Partager</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 4. Étiquettes, sur une seule ligne -->
+            <ul class="fs__tags">
+              <template x-for="t in ficheView.tags" :key="t">
+                <li x-text="t"></li>
+              </template>
+            </ul>
+
+            <!-- 5. À propos : la seule bande qui défile -->
+            <div class="fs__about" x-show="!ficheBare(ficheView)">
+              <p class="fs__label">À propos</p>
+              <p class="fs__text" :class="{ 'is-empty': !ficheView.description }" x-text="ficheView.description || 'Non renseigné'"></p>
+              <p class="carte__notice" x-show="notice" x-text="notice"></p>
+            </div>
+
+            <!-- 6. Coordonnées : quatre lignes pleine largeur -->
+            <div class="fs__rows" x-show="!ficheBare(ficheView)">
+              <a class="fs__row" :class="{ 'is-empty': !ficheView.phone }" :href="ficheView.phone ? 'tel:' + ficheView.phone : null">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
+                <span class="fs__k">Téléphone</span>
+                <span class="fs__v" x-text="ficheView.phone || 'Non renseigné'"></span>
+                <svg class="fs__chev" x-show="ficheView.phone" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+              <a class="fs__row" :class="{ 'is-empty': !ficheView.email }" :href="ficheView.email ? 'mailto:' + ficheView.email : null">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>
+                <span class="fs__k">E-mail</span>
+                <span class="fs__v" x-text="ficheView.email || 'Non renseigné'"></span>
+                <svg class="fs__chev" x-show="ficheView.email" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+              <a
+                class="fs__row"
+                :class="{ 'is-empty': !ficheView.website }"
+                :href="ficheView.website ? safeWebsite(ficheView.website) : null"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>
+                <span class="fs__k">Site web</span>
+                <span class="fs__v" x-text="ficheView.website || 'Non renseigné'"></span>
+                <svg class="fs__chev" x-show="ficheView.website" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+              </a>
+              <div class="fs__row" :class="{ 'is-empty': !ficheView.address }">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+                <span class="fs__k">Adresse</span>
+                <span class="fs__v" x-text="ficheView.address || 'Non renseigné'"></span>
+              </div>
+            </div>
+
+            <!-- 7. Pied : l'identité CETEF -->
+            <div class="fs__foot">
+              <span>CETEF · Lomé, Togo</span>
+              <i aria-hidden="true"></i>
+            </div>
+          </div>
+        </template>
+      </aside>
+      <p class="carte__hint" x-show="picking" x-cloak role="status">
+        Touchez la carte pour choisir votre point de départ.
+        <button type="button" class="carte__chip" x-on:click="picking = false">Annuler</button>
+      </p>
+
+      <aside class="carte__panel carte__route" x-show="routeOpen" x-cloak aria-label="Itinéraire">
+        <div class="carte__panelbar">
+          <button type="button" class="carte__icon" x-on:click="closeRoute()" aria-label="Fermer">
+            ×
+          </button>
+          <h1>Itinéraire</h1>
+        </div>
+
+        <div class="carte__ends">
+          <div class="carte__end">
+            <span class="carte__dot carte__dot--start" aria-hidden="true"></span>
+            <div class="carte__endbody">
+              <template x-if="from">
+                <div class="carte__endrow">
+                  <strong x-text="from.label"></strong>
+                  <button
+                    type="button"
+                    class="carte__linkbtn"
+                    x-on:click="from = null; computeRoute()"
+                  >
+                    Changer
+                  </button>
+                </div>
+              </template>
+              <template x-if="!from">
+                <div>
+                  <label class="carte__sr" for="route-from">Point de départ</label>
+                  <input
+                    id="route-from"
+                    class="carte__field"
+                    type="search"
+                    placeholder="Départ : un stand, un service…"
+                    x-model="fromQuery"
+                    x-on:input="searchStart()"
+                  />
+                  <ul class="carte__results carte__results--inline" x-show="fromResults.length > 0">
+                    <template x-for="r in fromResults" :key="r.id">
+                      <li>
+                        <button type="button" x-on:click="chooseStart(r)">
+                          <strong x-text="r.title || r.name"></strong>
+                          <span x-text="[place(r), r.category].filter(Boolean).join(' · ')"></span>
+                        </button>
+                      </li>
+                    </template>
+                  </ul>
+                  <div class="carte__quick">
+                    <button type="button" class="carte__chip" x-on:click="useMyPosition()">
+                      Ma position
+                    </button>
+                    <button type="button" class="carte__chip" x-on:click="startOnMap()">
+                      Choisir sur la carte
+                    </button>
+                    <template x-for="e in entrances" :key="e.id">
+                      <button
+                        type="button"
+                        class="carte__chip"
+                        x-on:click="chooseStart(e)"
+                        x-text="e.name"
+                      ></button>
+                    </template>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+          <div class="carte__end">
+            <span class="carte__dot carte__dot--end" aria-hidden="true"></span>
+            <div class="carte__endbody">
+              <template x-if="to">
+                <div class="carte__endrow">
+                  <strong x-text="to.label"></strong>
+                  <button
+                    type="button"
+                    class="carte__linkbtn"
+                    x-show="from && from.kind === 'place'"
+                    x-on:click="swapEnds()"
+                  >
+                    Inverser
+                  </button>
+                </div>
+              </template>
+              <template x-if="!to">
+                <div>
+                  <label class="carte__sr" for="route-to">Destination</label>
+                  <input
+                    id="route-to"
+                    class="carte__field"
+                    type="search"
+                    placeholder="Où allez-vous ? Un stand, un service…"
+                    x-model="toQuery"
+                    x-on:input="searchDestination()"
+                  />
+                  <ul class="carte__results carte__results--inline" x-show="toResults.length > 0">
+                    <template x-for="r in toResults" :key="r.id">
+                      <li>
+                        <button type="button" x-on:click="chooseDestination(r)">
+                          <strong x-text="r.title || r.name"></strong>
+                          <span x-text="[place(r), r.category].filter(Boolean).join(' · ')"></span>
+                        </button>
+                      </li>
+                    </template>
+                  </ul>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <div class="carte__modes" role="group" aria-label="Mode de déplacement">
+          <template x-for="p in profileOptions" :key="p.id">
+            <button
+              type="button"
+              class="carte__chip"
+              :class="{ 'is-on': profile === p.id }"
+              :aria-pressed="(profile === p.id).toString()"
+              x-on:click="setProfile(p.id)"
+              x-text="p.label"
+            ></button>
+          </template>
+        </div>
+
+        <p class="carte__loading" x-show="routeBusy">Calcul de l'itinéraire…</p>
+        <p class="carte__error" x-show="routeError" x-text="routeError" role="alert"></p>
+
+        <div class="carte__summary" x-show="summary" aria-live="polite">
+          <strong x-text="summary ? summary.dur : ''"></strong>
+          <span x-text="summary ? summary.dist : ''"></span>
+          <button type="button" class="carte__linkbtn" x-on:click="shareRoute()">Partager</button>
+        </div>
+
+        <div class="carte__actions" x-show="summary">
+          <button
+            type="button"
+            class="carte__btn carte__btn--main"
+            x-show="!navigating"
+            x-on:click="startNavigation()"
+          >
+            Démarrer
+          </button>
+          <button type="button" class="carte__btn" x-show="navigating" x-on:click="stopNavigation()">
+            Arrêter
+          </button>
+        </div>
+        <div class="carte__navbox" x-show="navigating" x-cloak role="status" aria-live="polite">
+          <strong x-text="nav ? nav.step : 'Recherche de votre position…'"></strong>
+          <span x-show="nav && nav.remaining" x-text="nav ? 'Il reste ' + nav.remaining + ' · ' + nav.time : ''"></span>
+          <span x-show="navNotice" x-text="navNotice"></span>
+        </div>
+
+        <div x-show="steps.length > 0">
+          <button
+            type="button"
+            class="carte__linkbtn carte__stepstoggle"
+            :aria-expanded="stepsOpen.toString()"
+            x-on:click="stepsOpen = !stepsOpen"
+            x-text="stepsOpen ? 'Masquer les étapes' : 'Afficher les étapes (' + steps.length + ')'"
+          ></button>
+          <ol class="carte__steps" x-show="stepsOpen">
+            <template x-for="(s, i) in steps" :key="i">
+              <li>
+                <button type="button" x-on:click="goToStep(i)">
+                  <span class="carte__stepicon" aria-hidden="true" x-text="s.icon"></span>
+                  <span class="carte__steptext">
+                    <span x-text="s.text"></span>
+                    <small x-show="s.dist" x-text="s.dist"></small>
+                  </span>
+                </button>
+              </li>
+            </template>
+          </ol>
+        </div>
+        <p class="carte__notice" x-show="notice" x-text="notice"></p>
+      </aside>
+
+      <section
+        class="carte__panel carte__sheet"
+        x-show="shareSheet"
+        x-cloak
+        role="dialog"
+        aria-label="Envoyer des coordonnées"
+        x-on:keydown.escape.window="closeShareSheet()"
+      >
+        <template x-if="shareSheet">
+          <div>
+            <div class="carte__panelbar">
+              <button type="button" class="carte__icon" x-on:click="closeShareSheet()" aria-label="Fermer">
+                ×
+              </button>
+              <h1 x-text="shareSheet.title"></h1>
+            </div>
+            <p class="carte__coords" x-text="sheetCoords()"></p>
+            <p class="carte__notice">
+              Le lien ouvre ce plan sur ce point. Rien n’est envoyé à notre serveur : vous choisissez
+              à qui l’envoyer.
+            </p>
+            <div class="carte__actions">
+              <button
+                type="button"
+                class="carte__btn carte__btn--main"
+                x-show="canShare()"
+                x-on:click="sheetShare()"
+              >
+                Partager…
+              </button>
+              <button type="button" class="carte__btn" x-on:click="sheetCopy()">Copier</button>
+              <a class="carte__btn" :href="sheetWhatsapp()" target="_blank" rel="noopener">WhatsApp</a>
+              <a class="carte__btn" :href="sheetSms()">SMS</a>
+              <a class="carte__btn" :href="sheetGeo()">Application de cartes</a>
+            </div>
+          </div>
+        </template>
+      </section>
+
+      <section class="carte__panel carte__sheet" x-show="sharedPin" x-cloak aria-label="Position partagée">
+        <template x-if="sharedPin">
+          <div>
+            <div class="carte__panelbar">
+              <button type="button" class="carte__icon" x-on:click="closeSharedPin()" aria-label="Fermer">
+                ×
+              </button>
+              <h1 x-text="sharedPin.label || 'Position partagée'"></h1>
+            </div>
+            <p class="carte__coords" x-text="formatCoords(sharedPin.lng, sharedPin.lat)"></p>
+            <div class="carte__actions">
+              <button type="button" class="carte__btn carte__btn--main" x-show="canRoute" x-on:click="routeToSharedPin()">
+                Y aller
+              </button>
+            </div>
+          </div>
+        </template>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /carte
+Disallow: /site
+Disallow: /centres
+Disallow: /login

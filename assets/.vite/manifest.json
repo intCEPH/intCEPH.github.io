@@ -1,0 +1,164 @@
+{
+  "_module.esm-CvIi2q49.js": {
+    "file": "module.esm-CvIi2q49.js",
+    "name": "module.esm"
+  },
+  "_snap-DsGvcq-C.js": {
+    "file": "snap-DsGvcq-C.js",
+    "name": "snap",
+    "css": [
+      "snap-qvkd0SPb.css"
+    ]
+  },
+  "_snap-qvkd0SPb.css": {
+    "file": "snap-qvkd0SPb.css",
+    "src": "_snap-qvkd0SPb.css"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-cyrillic-ext-wght-normal.woff2": {
+    "file": "inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-cyrillic-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2": {
+    "file": "inter-cyrillic-wght-normal-DqGufNeO.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-cyrillic-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-greek-ext-wght-normal.woff2": {
+    "file": "inter-greek-ext-wght-normal-DlzME5K_.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-greek-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-greek-wght-normal.woff2": {
+    "file": "inter-greek-wght-normal-CkhJZR-_.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-greek-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2": {
+    "file": "inter-latin-ext-wght-normal-DO1Apj_S.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2": {
+    "file": "inter-latin-wght-normal-Dx4kXJAl.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/inter/files/inter-vietnamese-wght-normal.woff2": {
+    "file": "inter-vietnamese-wght-normal-CBcvBZtf.woff2",
+    "src": "node_modules/@fontsource-variable/inter/files/inter-vietnamese-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-cyrillic-ext-wght-normal.woff2": {
+    "file": "jetbrains-mono-cyrillic-ext-wght-normal-EocZY2iu.woff2",
+    "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-cyrillic-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-cyrillic-wght-normal.woff2": {
+    "file": "jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2",
+    "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-cyrillic-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-greek-wght-normal.woff2": {
+    "file": "jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2",
+    "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-greek-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-ext-wght-normal.woff2": {
+    "file": "jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2",
+    "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2": {
+    "file": "jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2",
+    "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-vietnamese-wght-normal.woff2": {
+    "file": "jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2",
+    "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-vietnamese-wght-normal.woff2"
+  },
+  "resources/css/admin.css": {
+    "file": "admin-Dk0fa0Nx.css",
+    "name": "admin",
+    "names": [
+      "admin.css"
+    ],
+    "src": "resources/css/admin.css",
+    "isEntry": true
+  },
+  "resources/css/app.css": {
+    "file": "app-CZBJV9Qd.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/css/carte.css": {
+    "file": "carte-D5lf0kVr.css",
+    "name": "carte",
+    "names": [
+      "carte.css"
+    ],
+    "src": "resources/css/carte.css",
+    "isEntry": true,
+    "assets": [
+      "inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2",
+      "inter-cyrillic-wght-normal-DqGufNeO.woff2",
+      "inter-greek-ext-wght-normal-DlzME5K_.woff2",
+      "inter-greek-wght-normal-CkhJZR-_.woff2",
+      "inter-vietnamese-wght-normal-CBcvBZtf.woff2",
+      "inter-latin-ext-wght-normal-DO1Apj_S.woff2",
+      "inter-latin-wght-normal-Dx4kXJAl.woff2",
+      "jetbrains-mono-cyrillic-ext-wght-normal-EocZY2iu.woff2",
+      "jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2",
+      "jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2",
+      "jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2",
+      "jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2",
+      "jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2"
+    ]
+  },
+  "resources/css/ops.css": {
+    "file": "ops-BTAJ7hVg.css",
+    "name": "ops",
+    "names": [
+      "ops.css"
+    ],
+    "src": "resources/css/ops.css",
+    "isEntry": true,
+    "assets": [
+      "inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2",
+      "inter-cyrillic-wght-normal-DqGufNeO.woff2",
+      "inter-greek-ext-wght-normal-DlzME5K_.woff2",
+      "inter-greek-wght-normal-CkhJZR-_.woff2",
+      "inter-vietnamese-wght-normal-CBcvBZtf.woff2",
+      "inter-latin-ext-wght-normal-DO1Apj_S.woff2",
+      "inter-latin-wght-normal-Dx4kXJAl.woff2",
+      "jetbrains-mono-cyrillic-ext-wght-normal-EocZY2iu.woff2",
+      "jetbrains-mono-cyrillic-wght-normal-D73BlboJ.woff2",
+      "jetbrains-mono-greek-wght-normal-Bw9x6K1M.woff2",
+      "jetbrains-mono-vietnamese-wght-normal-Bt-aOZkq.woff2",
+      "jetbrains-mono-latin-ext-wght-normal-DBQx-q_a.woff2",
+      "jetbrains-mono-latin-wght-normal-B9CIFXIH.woff2"
+    ]
+  },
+  "resources/js/admin.js": {
+    "file": "admin-PgBW8p2P.js",
+    "name": "admin",
+    "src": "resources/js/admin.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-CvIi2q49.js",
+      "_snap-DsGvcq-C.js"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "app-DmV2Abmq.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-CvIi2q49.js"
+    ]
+  },
+  "resources/js/carte.js": {
+    "file": "carte-DY-dgnY-.js",
+    "name": "carte",
+    "src": "resources/js/carte.js",
+    "isEntry": true,
+    "imports": [
+      "_module.esm-CvIi2q49.js",
+      "_snap-DsGvcq-C.js"
+    ]
+  }
+}
