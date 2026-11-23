@@ -18,18 +18,18 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-CYkZ0trL.css"/>
-<link rel="modulepreload" href="/assets/carte-k33pcnsn.js"/>
+<link rel="preload" as="style" href="/assets/carte-lnyLc11n.css"/>
+<link rel="modulepreload" href="/assets/carte-Co95jdpV.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-D5ZgpluT.js"/>
-<link rel="stylesheet" href="/assets/carte-CYkZ0trL.css"/>
-<script type="module" defer src="/assets/carte-k33pcnsn.js"></script>
+<link rel="stylesheet" href="/assets/carte-lnyLc11n.css"/>
+<script type="module" defer src="/assets/carte-Co95jdpV.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
     <main
       class="carte"
-      :class="{ 'is-inside': opened, 'is-sheet-full': fiche && sheetMode === 'full' }"
+      :class="{ 'is-inside': opened, 'is-sheet-full': fiche && sheetMode === 'full', 'has-sheet': fiche || routeOpen }"
       x-data="carteViewer"
       data-url="/carte/data.json"
       data-fiche-url="/carte/fiche/__ID__.json"
@@ -235,7 +235,7 @@
 
       <aside
         class="carte__panel carte__fiche"
-        :class="{ 'is-open': fiche, 'is-dragging': sheetDragging, 'is-bare': ficheView && ficheBare(ficheView), 'is-peek': sheetMode === 'peek' }"
+        :class="{ 'is-open': fiche, 'is-dragging': sheetDragging, 'is-peek': sheetMode === 'peek' }"
         :style="sheetStyle()"
         :aria-hidden="(!fiche).toString()"
         :inert="!fiche"
@@ -350,7 +350,7 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
                 Itinéraire
               </button>
-              <div class="fs__sec" :class="{ 'is-bare': ficheBare(ficheView) }">
+              <div class="fs__sec">
                 <button type="button" aria-label="Partager" x-on:click="share()">
                   <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg>
                   <span>Partager</span>
@@ -366,14 +366,14 @@
             </ul>
 
             <!-- 5. À propos : la seule bande qui défile -->
-            <div class="fs__about" x-show="!ficheBare(ficheView)">
+            <div class="fs__about" >
               <p class="fs__label">À propos</p>
               <p class="fs__text" :class="{ 'is-empty': !ficheView.description }" x-text="ficheView.description || 'Non renseigné'"></p>
               <p class="carte__notice" x-show="notice" x-text="notice"></p>
             </div>
 
             <!-- 6. Coordonnées : quatre lignes pleine largeur -->
-            <div class="fs__rows" x-show="!ficheBare(ficheView)">
+            <div class="fs__rows">
               <a class="fs__row" :class="{ 'is-empty': !ficheView.phone }" :href="ficheView.phone ? 'tel:' + ficheView.phone : null">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></svg>
                 <span class="fs__k">Téléphone</span>
