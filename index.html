@@ -18,12 +18,12 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-BM7p3Rbg.css"/>
-<link rel="modulepreload" href="/assets/carte-DZvXN27z.js"/>
+<link rel="preload" as="style" href="/assets/carte-DQO_i3gL.css"/>
+<link rel="modulepreload" href="/assets/carte-DQwUwtPW.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-D5ZgpluT.js"/>
-<link rel="stylesheet" href="/assets/carte-BM7p3Rbg.css"/>
-<script type="module" defer src="/assets/carte-DZvXN27z.js"></script>
+<link rel="stylesheet" href="/assets/carte-DQO_i3gL.css"/>
+<script type="module" defer src="/assets/carte-DQwUwtPW.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -142,6 +142,21 @@
           <button type="button" class="carte__vbtn" aria-label="Zoomer" title="Zoomer" x-on:click="viewZoom(1)">+</button>
           <button type="button" class="carte__vbtn" aria-label="Dézoomer" title="Dézoomer" x-on:click="viewZoom(-1)">−</button>
         </div>
+        <div class="carte__corner">
+        <button
+          type="button"
+          class="carte__locate carte__tilt"
+          x-show="!opened"
+          x-cloak
+          :aria-pressed="(pitch > 5).toString()"
+          :aria-label="pitch > 5 ? 'Redresser la carte' : 'Incliner la carte'"
+          :title="pitch > 5 ? 'Redresser la carte' : 'Incliner la carte'"
+          x-on:click="toggleTilt()"
+        >
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path d="M7 7h10l4 11H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+          </svg>
+        </button>
         <button
           type="button"
           class="carte__locate"
@@ -157,6 +172,7 @@
             <path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="2" />
           </svg>
         </button>
+        </div>
       </div>
       <ul class="carte__zones" x-show="opened && zoneLegend().length > 0" x-cloak aria-label="Légende du pavillon">
         <template x-for="z in zoneLegend()" :key="z.id">
@@ -189,17 +205,15 @@
           <button type="button" class="carte__icon" x-on:click="geoBlocked = false" aria-label="Fermer">×</button>
           <h1>Position bloquée</h1>
         </div>
-        <p class="carte__notice">
-          Vous avez refusé l’accès à votre position. Pas de souci : pour vous situer sur la carte,
-          autorisez-la en quelques gestes.
-        </p>
         <ol class="carte__helpsteps">
           <template x-for="(step, i) in permissionSteps()" :key="i">
             <li x-text="step"></li>
           </template>
         </ol>
+        <p class="carte__error" x-show="geoStill" x-cloak role="alert">Toujours bloquée.</p>
         <div class="carte__actions">
           <button type="button" class="carte__btn carte__btn--main" x-on:click="retryLocate()">Réessayer</button>
+          <button type="button" class="carte__btn" x-show="geoStill" x-cloak x-on:click="location.reload()">Recharger la page</button>
           <button type="button" class="carte__btn" x-on:click="geoBlocked = false">Plus tard</button>
         </div>
       </section>
