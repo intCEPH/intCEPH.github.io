@@ -3,16 +3,16 @@
     "file": "module.esm-CvIi2q49.js",
     "name": "module.esm"
   },
-  "_snap-qvkd0SPb.css": {
-    "file": "snap-qvkd0SPb.css",
-    "src": "_snap-qvkd0SPb.css"
-  },
-  "_snap-tiXBOsWX.js": {
-    "file": "snap-tiXBOsWX.js",
+  "_snap-D5ZgpluT.js": {
+    "file": "snap-D5ZgpluT.js",
     "name": "snap",
     "css": [
       "snap-qvkd0SPb.css"
     ]
+  },
+  "_snap-qvkd0SPb.css": {
+    "file": "snap-qvkd0SPb.css",
+    "src": "_snap-qvkd0SPb.css"
   },
   "node_modules/@fontsource-variable/inter/files/inter-cyrillic-ext-wght-normal.woff2": {
     "file": "inter-cyrillic-ext-wght-normal-BOeWTOD4.woff2",
@@ -133,13 +133,13 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "admin-Ba5HIfdN.js",
+    "file": "admin-CuUp3aTP.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
       "_module.esm-CvIi2q49.js",
-      "_snap-tiXBOsWX.js"
+      "_snap-D5ZgpluT.js"
     ]
   },
   "resources/js/app.js": {
@@ -152,13 +152,13 @@
     ]
   },
   "resources/js/carte.js": {
-    "file": "carte-DmczGOzU.js",
+    "file": "carte-DSQe8T2D.js",
     "name": "carte",
     "src": "resources/js/carte.js",
     "isEntry": true,
     "imports": [
       "_module.esm-CvIi2q49.js",
-      "_snap-tiXBOsWX.js"
+      "_snap-D5ZgpluT.js"
     ]
   }
 }
