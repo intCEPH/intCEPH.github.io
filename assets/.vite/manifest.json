@@ -85,7 +85,7 @@
     "isEntry": true
   },
   "resources/css/carte.css": {
-    "file": "carte-D5lf0kVr.css",
+    "file": "carte-CF3mo7Gw.css",
     "name": "carte",
     "names": [
       "carte.css"
@@ -133,7 +133,7 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "admin-PgBW8p2P.js",
+    "file": "admin-bmqB8oZe.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
@@ -152,7 +152,7 @@
     ]
   },
   "resources/js/carte.js": {
-    "file": "carte-DY-dgnY-.js",
+    "file": "carte-NGAAkj3t.js",
     "name": "carte",
     "src": "resources/js/carte.js",
     "isEntry": true,
