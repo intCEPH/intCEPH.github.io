@@ -18,12 +18,12 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-C6PK3X-T.css"/>
-<link rel="modulepreload" href="/assets/carte-DdgIkURy.js"/>
+<link rel="preload" as="style" href="/assets/carte-DE8P2-hs.css"/>
+<link rel="modulepreload" href="/assets/carte-BoN8CJBI.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-BMzae3u_.js"/>
-<link rel="stylesheet" href="/assets/carte-C6PK3X-T.css"/>
-<script type="module" defer src="/assets/carte-DdgIkURy.js"></script>
+<link rel="stylesheet" href="/assets/carte-DE8P2-hs.css"/>
+<script type="module" defer src="/assets/carte-BoN8CJBI.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -199,24 +199,6 @@
         </div>
       </section>
       <p class="carte__error carte__toast" x-show="geoError" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" x-text="geoError" role="alert"></p>
-
-      <section class="carte__panel carte__sheet carte__geoblock" x-show="geoBlocked" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="dialog" aria-label="Position bloquée">
-        <div class="carte__panelbar">
-          <button type="button" class="carte__icon" x-on:click="geoBlocked = false" aria-label="Fermer">×</button>
-          <h1>Position bloquée</h1>
-        </div>
-        <ol class="carte__helpsteps">
-          <template x-for="(step, i) in permissionSteps()" :key="i">
-            <li x-text="step"></li>
-          </template>
-        </ol>
-        <p class="carte__error" x-show="geoStill" x-cloak role="alert">Toujours bloquée.</p>
-        <div class="carte__actions">
-          <button type="button" class="carte__btn carte__btn--main" x-on:click="retryLocate()">Réessayer</button>
-          <button type="button" class="carte__btn" x-show="geoStill" x-cloak x-on:click="location.reload()">Recharger la page</button>
-          <button type="button" class="carte__btn" x-on:click="geoBlocked = false">Plus tard</button>
-        </div>
-      </section>
 
       <div class="carte__levels" x-show="opened" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="toolbar" aria-label="Étages du bâtiment">
         <strong class="carte__levelname" x-text="opened ? opened.name || 'Bâtiment' : ''"></strong>
