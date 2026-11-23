@@ -18,11 +18,11 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-lnyLc11n.css"/>
+<link rel="preload" as="style" href="/assets/carte-C6PK3X-T.css"/>
 <link rel="modulepreload" href="/assets/carte-Co95jdpV.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-D5ZgpluT.js"/>
-<link rel="stylesheet" href="/assets/carte-lnyLc11n.css"/>
+<link rel="stylesheet" href="/assets/carte-C6PK3X-T.css"/>
 <script type="module" defer src="/assets/carte-Co95jdpV.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
@@ -63,7 +63,7 @@
           </svg>
           Lieux importants
         </button>
-        <ul class="carte__results" x-show="results.length > 0" x-cloak>
+        <ul class="carte__results" x-show="results.length > 0" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from">
           <template x-for="r in results" :key="r.id">
             <li>
               <button type="button" x-on:click="openFiche(r.id, true)">
@@ -81,7 +81,7 @@
         class="carte__legend"
         :class="{ 'with-drawer': fiche }"
         x-show="legendOpen && essentiels.length > 0"
-        x-cloak
+        x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from"
         aria-label="Lieux importants"
       >
         <header>
@@ -120,7 +120,7 @@
             Envoyer ma position
           </button>
         </div>
-        <div class="carte__view" x-show="opened" x-cloak role="group" aria-label="Vue du bâtiment">
+        <div class="carte__view" x-show="opened" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="group" aria-label="Vue du bâtiment">
           <button type="button" class="carte__vbtn" aria-label="Nord en haut" title="Nord en haut" x-on:click="viewNorth()">
             <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" :style="`transform:rotate(${-bearing}deg)`">
               <path d="M12 3l4 9h-8z" fill="#d93025" /><path d="M12 21l-4-9h8z" fill="currentColor" opacity=".55" />
@@ -174,7 +174,7 @@
         </button>
         </div>
       </div>
-      <ul class="carte__zones" x-show="opened && zoneLegend().length > 0" x-cloak aria-label="Légende du pavillon">
+      <ul class="carte__zones" x-show="opened && zoneLegend().length > 0" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" aria-label="Légende du pavillon">
         <template x-for="z in zoneLegend()" :key="z.id">
           <li>
             <i :style="`background:${z.fill}; box-shadow: inset 0 0 0 1.5px ${z.line}`"></i>
@@ -185,7 +185,7 @@
       <section
         class="carte__outside"
         x-show="placement && placement.where === 'outside' && !outsideDismissed"
-        x-cloak
+        x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from"
         aria-label="Vous êtes hors du site"
       >
         <strong>Vous êtes hors du site</strong>
@@ -198,9 +198,9 @@
           <button type="button" class="carte__btn" x-on:click="outsideDismissed = true">Fermer</button>
         </div>
       </section>
-      <p class="carte__error carte__toast" x-show="geoError" x-cloak x-text="geoError" role="alert"></p>
+      <p class="carte__error carte__toast" x-show="geoError" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" x-text="geoError" role="alert"></p>
 
-      <section class="carte__panel carte__sheet carte__geoblock" x-show="geoBlocked" x-cloak role="dialog" aria-label="Position bloquée">
+      <section class="carte__panel carte__sheet carte__geoblock" x-show="geoBlocked" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="dialog" aria-label="Position bloquée">
         <div class="carte__panelbar">
           <button type="button" class="carte__icon" x-on:click="geoBlocked = false" aria-label="Fermer">×</button>
           <h1>Position bloquée</h1>
@@ -218,7 +218,7 @@
         </div>
       </section>
 
-      <div class="carte__levels" x-show="opened" x-cloak role="toolbar" aria-label="Étages du bâtiment">
+      <div class="carte__levels" x-show="opened" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="toolbar" aria-label="Étages du bâtiment">
         <strong class="carte__levelname" x-text="opened ? opened.name || 'Bâtiment' : ''"></strong>
         <template x-for="l in (opened ? opened.levels : [])" :key="l.id">
           <button
@@ -413,12 +413,12 @@
           </div>
         </template>
       </aside>
-      <p class="carte__hint" x-show="picking" x-cloak role="status">
+      <p class="carte__hint" x-show="picking" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="status">
         <span x-text="pickFor === 'share' ? 'Touchez le lieu à partager.' : 'Touchez votre point de départ.'"></span>
         <button type="button" class="carte__chip" x-on:click="picking = false">Annuler</button>
       </p>
 
-      <aside class="carte__panel carte__route" x-show="routeOpen && !fiche && !routeMin && !picking" x-cloak aria-label="Itinéraire">
+      <aside class="carte__panel carte__route" x-show="routeOpen && !fiche && !routeMin && !picking" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" aria-label="Itinéraire">
         <div class="carte__panelbar">
           <button type="button" class="carte__icon" x-on:click="closeRoute()" aria-label="Quitter l’itinéraire">
             ×
@@ -583,7 +583,7 @@
       </aside>
 
       <!-- Itinéraire réduit : un bandeau en bas ; l'itinéraire reste tracé, la croix le quitte. -->
-      <div class="carte__routebar" x-show="routeOpen && !fiche && routeMin && !picking" x-cloak role="region" aria-label="Itinéraire réduit">
+      <div class="carte__routebar" x-show="routeOpen && !fiche && routeMin && !picking" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" role="region" aria-label="Itinéraire réduit">
         <button type="button" class="carte__routebar-main" x-on:click="routeMin = false" aria-label="Rouvrir l’itinéraire">
           <strong x-text="navigating ? (nav ? nav.step : 'Recherche de votre position…') : (to ? to.label : 'Itinéraire')"></strong>
           <span x-text="navigating ? (nav && nav.remaining ? 'Il reste ' + nav.remaining + ' · ' + nav.time : '') : (summary ? summary.dur + ' · ' + summary.dist : '')"></span>
@@ -596,7 +596,7 @@
       <section
         class="carte__panel carte__sheet"
         x-show="shareSheet && !picking"
-        x-cloak
+        x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from"
         role="dialog"
         aria-label="Envoyer des coordonnées"
         x-on:keydown.escape.window="closeShareSheet()"
@@ -633,7 +633,7 @@
         </template>
       </section>
 
-      <section class="carte__panel carte__sheet" x-show="sharedPin" x-cloak aria-label="Position partagée">
+      <section class="carte__panel carte__sheet" x-show="sharedPin" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" aria-label="Position partagée">
         <template x-if="sharedPin">
           <div>
             <div class="carte__panelbar">
