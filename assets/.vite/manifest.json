@@ -3,8 +3,8 @@
     "file": "module.esm-CvIi2q49.js",
     "name": "module.esm"
   },
-  "_snap-D5ZgpluT.js": {
-    "file": "snap-D5ZgpluT.js",
+  "_snap-BMzae3u_.js": {
+    "file": "snap-BMzae3u_.js",
     "name": "snap",
     "css": [
       "snap-qvkd0SPb.css"
@@ -133,13 +133,13 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "admin-CuUp3aTP.js",
+    "file": "admin-Cpfwkl3i.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
       "_module.esm-CvIi2q49.js",
-      "_snap-D5ZgpluT.js"
+      "_snap-BMzae3u_.js"
     ]
   },
   "resources/js/app.js": {
@@ -152,13 +152,13 @@
     ]
   },
   "resources/js/carte.js": {
-    "file": "carte-Co95jdpV.js",
+    "file": "carte-Dv9lOrK6.js",
     "name": "carte",
     "src": "resources/js/carte.js",
     "isEntry": true,
     "imports": [
       "_module.esm-CvIi2q49.js",
-      "_snap-D5ZgpluT.js"
+      "_snap-BMzae3u_.js"
     ]
   }
 }
