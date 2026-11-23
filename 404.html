@@ -537,15 +537,7 @@
           <button type="button" class="carte__linkbtn" x-on:click="shareRoute()">Partager</button>
         </div>
 
-        <div class="carte__actions" x-show="summary">
-          <button
-            type="button"
-            class="carte__btn carte__btn--main"
-            x-show="!navigating"
-            x-on:click="startNavigation()"
-          >
-            Démarrer
-          </button>
+        <div class="carte__actions" x-show="summary && navigating">
           <button
             type="button"
             class="carte__btn"
