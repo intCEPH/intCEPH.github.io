@@ -18,12 +18,12 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-DQO_i3gL.css"/>
-<link rel="modulepreload" href="/assets/carte-DQwUwtPW.js"/>
+<link rel="preload" as="style" href="/assets/carte-CYkZ0trL.css"/>
+<link rel="modulepreload" href="/assets/carte-k33pcnsn.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-D5ZgpluT.js"/>
-<link rel="stylesheet" href="/assets/carte-DQO_i3gL.css"/>
-<script type="module" defer src="/assets/carte-DQwUwtPW.js"></script>
+<link rel="stylesheet" href="/assets/carte-CYkZ0trL.css"/>
+<script type="module" defer src="/assets/carte-k33pcnsn.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -414,11 +414,11 @@
         </template>
       </aside>
       <p class="carte__hint" x-show="picking" x-cloak role="status">
-        Touchez la carte pour choisir votre point de départ.
+        <span x-text="pickFor === 'share' ? 'Touchez le lieu à partager.' : 'Touchez votre point de départ.'"></span>
         <button type="button" class="carte__chip" x-on:click="picking = false">Annuler</button>
       </p>
 
-      <aside class="carte__panel carte__route" x-show="routeOpen && !fiche && !routeMin" x-cloak aria-label="Itinéraire">
+      <aside class="carte__panel carte__route" x-show="routeOpen && !fiche && !routeMin && !picking" x-cloak aria-label="Itinéraire">
         <div class="carte__panelbar">
           <button type="button" class="carte__icon" x-on:click="closeRoute()" aria-label="Quitter l’itinéraire">
             ×
@@ -591,7 +591,7 @@
       </aside>
 
       <!-- Itinéraire réduit : un bandeau en bas ; l'itinéraire reste tracé, la croix le quitte. -->
-      <div class="carte__routebar" x-show="routeOpen && !fiche && routeMin" x-cloak role="region" aria-label="Itinéraire réduit">
+      <div class="carte__routebar" x-show="routeOpen && !fiche && routeMin && !picking" x-cloak role="region" aria-label="Itinéraire réduit">
         <button type="button" class="carte__routebar-main" x-on:click="routeMin = false" aria-label="Rouvrir l’itinéraire">
           <strong x-text="navigating ? (nav ? nav.step : 'Recherche de votre position…') : (to ? to.label : 'Itinéraire')"></strong>
           <span x-text="navigating ? (nav && nav.remaining ? 'Il reste ' + nav.remaining + ' · ' + nav.time : '') : (summary ? summary.dur + ' · ' + summary.dist : '')"></span>
@@ -603,7 +603,7 @@
 
       <section
         class="carte__panel carte__sheet"
-        x-show="shareSheet"
+        x-show="shareSheet && !picking"
         x-cloak
         role="dialog"
         aria-label="Envoyer des coordonnées"
@@ -632,6 +632,7 @@
                 Partager…
               </button>
               <button type="button" class="carte__btn" x-on:click="sheetCopy()">Copier</button>
+              <button type="button" class="carte__btn" x-on:click="pickShareOnMap()">Choisir un lieu sur la carte</button>
               <a class="carte__btn" :href="sheetWhatsapp()" target="_blank" rel="noopener">WhatsApp</a>
               <a class="carte__btn" :href="sheetSms()">SMS</a>
               <a class="carte__btn" :href="sheetGeo()">Application de cartes</a>
