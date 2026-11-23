@@ -18,12 +18,12 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-DXBUW4fW.css"/>
-<link rel="modulepreload" href="/assets/carte-DSQe8T2D.js"/>
+<link rel="preload" as="style" href="/assets/carte-BM7p3Rbg.css"/>
+<link rel="modulepreload" href="/assets/carte-DZvXN27z.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-D5ZgpluT.js"/>
-<link rel="stylesheet" href="/assets/carte-DXBUW4fW.css"/>
-<script type="module" defer src="/assets/carte-DSQe8T2D.js"></script>
+<link rel="stylesheet" href="/assets/carte-BM7p3Rbg.css"/>
+<script type="module" defer src="/assets/carte-DZvXN27z.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -404,15 +404,18 @@
         <button type="button" class="carte__chip" x-on:click="picking = false">Annuler</button>
       </p>
 
-      <aside class="carte__panel carte__route" x-show="routeOpen && !fiche" x-cloak aria-label="Itinéraire">
+      <aside class="carte__panel carte__route" x-show="routeOpen && !fiche && !routeMin" x-cloak aria-label="Itinéraire">
         <div class="carte__panelbar">
-          <button type="button" class="carte__icon" x-on:click="closeRoute()" aria-label="Fermer">
+          <button type="button" class="carte__icon" x-on:click="closeRoute()" aria-label="Quitter l’itinéraire">
             ×
           </button>
           <h1>Itinéraire</h1>
+          <button type="button" class="carte__icon carte__fold" x-on:click="routeMin = true" aria-label="Réduire l’itinéraire" title="Réduire">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
         </div>
 
-        <div class="carte__ends">
+        <div class="carte__ends" x-show="!navigating">
           <div class="carte__end">
             <span class="carte__dot carte__dot--start" aria-hidden="true"></span>
             <div class="carte__endbody">
@@ -548,7 +551,7 @@
           <span x-show="navNotice" x-text="navNotice"></span>
         </div>
 
-        <div x-show="steps.length > 0">
+        <div x-show="steps.length > 0 && !navigating">
           <button
             type="button"
             class="carte__linkbtn carte__stepstoggle"
@@ -572,6 +575,17 @@
         </div>
         <p class="carte__notice" x-show="notice" x-text="notice"></p>
       </aside>
+
+      <!-- Itinéraire réduit : un bandeau en bas ; l'itinéraire reste tracé, la croix le quitte. -->
+      <div class="carte__routebar" x-show="routeOpen && !fiche && routeMin" x-cloak role="region" aria-label="Itinéraire réduit">
+        <button type="button" class="carte__routebar-main" x-on:click="routeMin = false" aria-label="Rouvrir l’itinéraire">
+          <strong x-text="navigating ? (nav ? nav.step : 'Recherche de votre position…') : (to ? to.label : 'Itinéraire')"></strong>
+          <span x-text="navigating ? (nav && nav.remaining ? 'Il reste ' + nav.remaining + ' · ' + nav.time : '') : (summary ? summary.dur + ' · ' + summary.dist : '')"></span>
+        </button>
+        <button type="button" class="carte__routebar-x" x-on:click="closeRoute()" aria-label="Quitter l’itinéraire">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" /></svg>
+        </button>
+      </div>
 
       <section
         class="carte__panel carte__sheet"
