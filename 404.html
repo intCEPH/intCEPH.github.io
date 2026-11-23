@@ -18,18 +18,18 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-CF3mo7Gw.css"/>
-<link rel="modulepreload" href="/assets/carte-NGAAkj3t.js"/>
+<link rel="preload" as="style" href="/assets/carte-DXBUW4fW.css"/>
+<link rel="modulepreload" href="/assets/carte-IeDmooWq.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
-<link rel="modulepreload" href="/assets/snap-DsGvcq-C.js"/>
-<link rel="stylesheet" href="/assets/carte-CF3mo7Gw.css"/>
-<script type="module" defer src="/assets/carte-NGAAkj3t.js"></script>
+<link rel="modulepreload" href="/assets/snap-tiXBOsWX.js"/>
+<link rel="stylesheet" href="/assets/carte-DXBUW4fW.css"/>
+<script type="module" defer src="/assets/carte-IeDmooWq.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
     <main
       class="carte"
-      :class="{ 'is-inside': opened }"
+      :class="{ 'is-inside': opened, 'is-sheet-full': fiche && sheetMode === 'full' }"
       x-data="carteViewer"
       data-url="/carte/data.json"
       data-fiche-url="/carte/fiche/__ID__.json"
@@ -40,55 +40,29 @@
 
       <div class="carte__bar" :class="{ 'with-drawer': fiche }">
         <label class="carte__search">
-          <span class="carte__sr">Rechercher un stand, un bâtiment ou un service</span>
+          <span class="carte__sr">Rechercher un lieu</span>
           <input
             type="search"
-            placeholder="Rechercher un stand, un bâtiment, des toilettes…"
+            placeholder="Rechercher un lieu"
             x-model="query"
             x-on:input="search()"
           />
         </label>
         <button
           type="button"
-          class="carte__chip carte__chip--legend"
-          x-show="families.length > 0"
+          class="carte__chip carte__chip--places"
+          x-show="essentiels.length > 0"
           x-cloak
-          :class="{ 'is-on': legendOpen || family }"
+          :class="{ 'is-on': legendOpen || essentiel }"
           :aria-expanded="legendOpen.toString()"
           aria-controls="carte-legend"
           x-on:click="legendOpen = !legendOpen"
         >
-          <span class="carte__dots" aria-hidden="true">
-            <template x-for="f in families.slice(0, 4)" :key="f.id">
-              <i :style="`background:${f.fill}`"></i>
-            </template>
-          </span>
-          Secteurs
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" /><circle cx="12" cy="9.5" r="2.4" fill="currentColor" />
+          </svg>
+          Lieux importants
         </button>
-        <div class="carte__essentiels" x-show="essentiels.length > 0" x-cloak role="group" aria-label="Lieux essentiels">
-          <template x-for="e in essentiels" :key="e.id">
-            <button
-              type="button"
-              class="carte__chip carte__chip--essentiel"
-              :class="{ 'is-on': essentiel === e.id }"
-              :aria-pressed="(essentiel === e.id).toString()"
-              x-on:click="pickEssentiel(e.id)"
-              x-text="e.label"
-            ></button>
-          </template>
-        </div>
-        <div class="carte__cats" x-show="categories.length > 0" x-cloak role="group" aria-label="Filtrer par type">
-          <template x-for="c in categories" :key="c.id">
-            <button
-              type="button"
-              class="carte__chip"
-              :class="{ 'is-on': category === c.id }"
-              :aria-pressed="(category === c.id).toString()"
-              x-on:click="pickCategory(c.id)"
-              x-text="c.label"
-            ></button>
-          </template>
-        </div>
         <ul class="carte__results" x-show="results.length > 0" x-cloak>
           <template x-for="r in results" :key="r.id">
             <li>
@@ -106,31 +80,30 @@
         id="carte-legend"
         class="carte__legend"
         :class="{ 'with-drawer': fiche }"
-        x-show="legendOpen && families.length > 0"
+        x-show="legendOpen && essentiels.length > 0"
         x-cloak
-        aria-label="Légende : secteurs d'activité"
+        aria-label="Lieux importants"
       >
         <header>
-          <strong>Secteurs d’activité</strong>
-          <button type="button" class="carte__x" aria-label="Fermer la légende" x-on:click="legendOpen = false">×</button>
+          <strong>Lieux importants</strong>
+          <button type="button" class="carte__x" aria-label="Fermer la liste" x-on:click="legendOpen = false">×</button>
         </header>
         <ul>
-          <template x-for="f in families" :key="f.id">
+          <template x-for="e in essentiels" :key="e.id">
             <li>
               <button
                 type="button"
-                :class="{ 'is-on': family === f.id }"
-                :aria-pressed="(family === f.id).toString()"
-                x-on:click="pickFamily(f.id)"
+                :class="{ 'is-on': essentiel === e.id }"
+                :aria-pressed="(essentiel === e.id).toString()"
+                x-on:click="pickEssentiel(e.id)"
               >
-                <i :style="`background:${f.fill}; box-shadow: inset 0 0 0 1.5px ${f.stroke}`"></i>
-                <span x-text="f.label"></span>
-                <small x-text="familyCount(f.id)"></small>
+                <span x-text="e.label"></span>
+                <small x-text="essentielCount(e.id)"></small>
               </button>
             </li>
           </template>
         </ul>
-        <button type="button" class="carte__reset" x-show="family" x-cloak x-on:click="pickFamily(family)">
+        <button type="button" class="carte__reset" x-show="essentiel" x-cloak x-on:click="pickEssentiel(essentiel)">
           Tout afficher
         </button>
       </section>
@@ -211,6 +184,26 @@
       </section>
       <p class="carte__error carte__toast" x-show="geoError" x-cloak x-text="geoError" role="alert"></p>
 
+      <section class="carte__panel carte__sheet carte__geoblock" x-show="geoBlocked" x-cloak role="dialog" aria-label="Position bloquée">
+        <div class="carte__panelbar">
+          <button type="button" class="carte__icon" x-on:click="geoBlocked = false" aria-label="Fermer">×</button>
+          <h1>Position bloquée</h1>
+        </div>
+        <p class="carte__notice">
+          Vous avez refusé l’accès à votre position. Pas de souci : pour vous situer sur la carte,
+          autorisez-la en quelques gestes.
+        </p>
+        <ol class="carte__helpsteps">
+          <template x-for="(step, i) in permissionSteps()" :key="i">
+            <li x-text="step"></li>
+          </template>
+        </ol>
+        <div class="carte__actions">
+          <button type="button" class="carte__btn carte__btn--main" x-on:click="retryLocate()">Réessayer</button>
+          <button type="button" class="carte__btn" x-on:click="geoBlocked = false">Plus tard</button>
+        </div>
+      </section>
+
       <div class="carte__levels" x-show="opened" x-cloak role="toolbar" aria-label="Étages du bâtiment">
         <strong class="carte__levelname" x-text="opened ? opened.name || 'Bâtiment' : ''"></strong>
         <template x-for="l in (opened ? opened.levels : [])" :key="l.id">
@@ -228,7 +221,7 @@
 
       <aside
         class="carte__panel carte__fiche"
-        :class="{ 'is-open': fiche, 'is-dragging': sheetDragging, 'is-bare': ficheView && ficheBare(ficheView) }"
+        :class="{ 'is-open': fiche, 'is-dragging': sheetDragging, 'is-bare': ficheView && ficheBare(ficheView), 'is-peek': sheetMode === 'peek' }"
         :style="sheetStyle()"
         :aria-hidden="(!fiche).toString()"
         :inert="!fiche"
@@ -236,6 +229,39 @@
       >
         <template x-if="ficheView">
           <div class="fs">
+            <!-- Téléphone, fiche réduite : une barre avec le nom, l'itinéraire et la croix (la carte est libre au-dessus). -->
+            <div class="fs__peek">
+              <div
+                class="fs__peekgrab"
+                aria-hidden="true"
+                x-on:pointerdown="sheetDown($event)"
+                x-on:pointermove="sheetMove($event)"
+                x-on:pointerup="sheetUp($event)"
+                x-on:pointercancel="sheetUp($event)"
+              >
+                <span></span>
+              </div>
+              <div class="fs__peekrow">
+                <button type="button" class="fs__peekmain" aria-label="Voir la fiche en entier" x-on:click="sheetMode = 'full'">
+                  <span class="fs__peeklogo">
+                    <img x-show="ficheView.logoUrl && ficheView.showLogo !== false" :src="ficheView.logoUrl" alt="" />
+                    <span x-show="!(ficheView.logoUrl && ficheView.showLogo !== false)" x-text="ficheInitials(ficheView)"></span>
+                  </span>
+                  <span class="fs__peektext">
+                    <strong x-text="ficheTitle(ficheView)"></strong>
+                    <small x-show="ficheSub(ficheView)" x-text="ficheSub(ficheView)"></small>
+                  </span>
+                </button>
+                <button type="button" class="fs__peekgo" x-show="canRoute" x-on:click="routeTo(ficheView.id)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>
+                  Itinéraire
+                </button>
+                <button type="button" class="fs__peekx" x-on:click="closeFiche()" aria-label="Fermer la fiche">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                </button>
+              </div>
+            </div>
+
             <!-- 1. Photo de couverture, pleine largeur -->
             <div class="fs__cover">
               <!-- Les photos d'illustration défilent ici ; sans photo, la zone verte ne change pas. -->
@@ -298,7 +324,7 @@
                 <span x-show="!(ficheView.logoUrl && ficheView.showLogo !== false)" x-text="ficheInitials(ficheView)"></span>
               </div>
               <div class="fs__heading">
-                <h1 x-text="ficheView.title || ficheView.name"></h1>
+                <h1 x-text="ficheTitle(ficheView)"></h1>
                 <p class="fs__who" x-show="ficheView.contactName" x-text="ficheView.contactName"></p>
                 <p class="fs__sub" x-show="ficheSub(ficheView)" x-text="ficheSub(ficheView)"></p>
               </div>
@@ -404,12 +430,13 @@
               </template>
               <template x-if="!from">
                 <div>
+                  <p class="carte__ask">D’où partez-vous ?</p>
                   <label class="carte__sr" for="route-from">Point de départ</label>
                   <input
                     id="route-from"
                     class="carte__field"
                     type="search"
-                    placeholder="Départ : un stand, un service…"
+                    placeholder="Où êtes-vous ?"
                     x-model="fromQuery"
                     x-on:input="searchStart()"
                   />
@@ -424,20 +451,18 @@
                     </template>
                   </ul>
                   <div class="carte__quick">
-                    <button type="button" class="carte__chip" x-on:click="useMyPosition()">
+                    <button type="button" class="carte__big carte__big--main" x-on:click="useMyPosition()">
+                      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                        <circle cx="12" cy="12" r="3.5" fill="currentColor" /><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2" /><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4" stroke="currentColor" stroke-width="2" />
+                      </svg>
                       Ma position
                     </button>
-                    <button type="button" class="carte__chip" x-on:click="startOnMap()">
+                    <button type="button" class="carte__big" x-on:click="startOnMap()">
+                      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+                        <path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /><circle cx="12" cy="9.5" r="2.4" fill="currentColor" />
+                      </svg>
                       Choisir sur la carte
                     </button>
-                    <template x-for="e in entrances" :key="e.id">
-                      <button
-                        type="button"
-                        class="carte__chip"
-                        x-on:click="chooseStart(e)"
-                        x-text="e.name"
-                      ></button>
-                    </template>
                   </div>
                 </div>
               </template>
@@ -484,19 +509,6 @@
               </template>
             </div>
           </div>
-        </div>
-
-        <div class="carte__modes" role="group" aria-label="Mode de déplacement">
-          <template x-for="p in profileOptions" :key="p.id">
-            <button
-              type="button"
-              class="carte__chip"
-              :class="{ 'is-on': profile === p.id }"
-              :aria-pressed="(profile === p.id).toString()"
-              x-on:click="setProfile(p.id)"
-              x-text="p.label"
-            ></button>
-          </template>
         </div>
 
         <p class="carte__loading" x-show="routeBusy">Calcul de l'itinéraire…</p>
