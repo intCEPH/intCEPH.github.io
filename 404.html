@@ -19,11 +19,11 @@
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
 <link rel="preload" as="style" href="/assets/carte-DE8P2-hs.css"/>
-<link rel="modulepreload" href="/assets/carte-BoN8CJBI.js"/>
+<link rel="modulepreload" href="/assets/carte-BAob_-RE.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-BMzae3u_.js"/>
 <link rel="stylesheet" href="/assets/carte-DE8P2-hs.css"/>
-<script type="module" defer src="/assets/carte-BoN8CJBI.js"></script>
+<script type="module" defer src="/assets/carte-BAob_-RE.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -68,7 +68,7 @@
             <li>
               <button type="button" x-on:click="openFiche(r.id, true)">
                 <strong x-text="r.title || r.name"></strong>
-                <span x-text="[place(r) || r.where, r.sector || r.category, ...r.tags].filter(Boolean).join(' · ')"></span>
+                <span x-text="[place(r) || r.where, r.contact !== r.title ? r.contact : '', r.sector || r.category, ...r.tags].filter(Boolean).join(' · ')"></span>
               </button>
             </li>
           </template>
