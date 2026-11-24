@@ -18,12 +18,12 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-DE8P2-hs.css"/>
-<link rel="modulepreload" href="/assets/carte-BoCDC0wh.js"/>
+<link rel="preload" as="style" href="/assets/carte-B-RMmWhu.css"/>
+<link rel="modulepreload" href="/assets/carte-BOssVbH7.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-BMzae3u_.js"/>
-<link rel="stylesheet" href="/assets/carte-DE8P2-hs.css"/>
-<script type="module" defer src="/assets/carte-BoCDC0wh.js"></script>
+<link rel="stylesheet" href="/assets/carte-B-RMmWhu.css"/>
+<script type="module" defer src="/assets/carte-BOssVbH7.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -173,6 +173,24 @@
           </svg>
         </button>
         </div>
+      </div>
+
+      
+      <div class="carte__helpdock" :class="{ 'is-hinting': helpHintOn }" x-show="helpAvailable()" x-cloak>
+        <button
+          type="button"
+          class="carte__locate carte__helpbtn"
+          x-ref="helpBtn"
+          aria-label="Aide : comment utiliser la carte"
+          title="Aide"
+          x-on:click="openHelp()"
+        >
+          <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+            <path d="M9 9.2a3.1 3.1 0 116 1c0 1.6-2.2 2.1-2.8 3.4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="12" cy="18" r="1.4" fill="currentColor" />
+          </svg>
+        </button>
+        <p class="carte__helpbubble" :class="{ 'is-on': helpHintOn }" aria-hidden="true" x-text="helpTip"></p>
       </div>
       <ul class="carte__zones" x-show="opened && zoneLegend().length > 0" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from" aria-label="Légende du pavillon">
         <template x-for="z in zoneLegend()" :key="z.id">
@@ -633,6 +651,48 @@
           </div>
         </template>
       </section>
+
+      
+      <div
+        class="carte__help"
+        x-show="helpOpen"
+        x-cloak
+        x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="carte-help-title"
+      >
+        <section class="carte__helpcard">
+          <h2 id="carte-help-title">Comment utiliser la carte</h2>
+          <ul>
+            <li>
+              <span class="carte__helpkey" aria-hidden="true"><i class="carte__helpkey-pavilion"></i></span>
+              <span>Touchez un <strong>pavillon</strong> pour voir son intérieur.</span>
+            </li>
+            <li>
+              <span class="carte__helpkey" aria-hidden="true"><i class="carte__helpkey-stand"></i></span>
+              <span>Touchez un <strong>petit carré</strong> (un stand) pour ouvrir sa fiche.</span>
+            </li>
+            <li>
+              <span class="carte__helpkey" aria-hidden="true"><i class="carte__helpkey-pin"></i></span>
+              <span>Touchez une <strong>pastille</strong> pour ouvrir sa fiche.</span>
+            </li>
+            <li>
+              <span class="carte__helpkey" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="M16 16l4.5 4.5" /></svg>
+              </span>
+              <span>Cherchez un stand ou un service avec la <strong>barre du haut</strong>.</span>
+            </li>
+            <li>
+              <span class="carte__helpkey" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19l5-5M5 19v-4.5M5 19h4.5M19 5l-5 5M19 5v4.5M19 5h-4.5" /></svg>
+              </span>
+              <span><strong>Deux doigts</strong> : pincez pour zoomer, tournez pour orienter la carte.</span>
+            </li>
+          </ul>
+          <button type="button" class="carte__helpok" x-ref="helpOk" x-on:click="closeHelp()">Compris</button>
+        </section>
+      </div>
     </main>
   </body>
 </html>
