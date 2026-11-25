@@ -18,12 +18,12 @@
     />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23111'/%3E%3Cpath d='M16 6c-4.4 0-8 3.4-8 7.6C8 19.4 16 26 16 26s8-6.600 8-12.400C24 9.400 20.400 6 16 6z' fill='%23fff'/%3E%3Ccircle cx='16' cy='13.600' r='3' fill='%23111'/%3E%3C/svg%3E" />
     <link rel="preload" as="style" href="/assets/snap-qvkd0SPb.css"/>
-<link rel="preload" as="style" href="/assets/carte-C_1n4k7U.css"/>
-<link rel="modulepreload" href="/assets/carte-Bw05pvWh.js"/>
+<link rel="preload" as="style" href="/assets/carte-D2JYMOW-.css"/>
+<link rel="modulepreload" href="/assets/carte-dtxjCCq3.js"/>
 <link rel="modulepreload" href="/assets/module.esm-CvIi2q49.js"/>
 <link rel="modulepreload" href="/assets/snap-BMzae3u_.js"/>
-<link rel="stylesheet" href="/assets/carte-C_1n4k7U.css"/>
-<script type="module" defer src="/assets/carte-Bw05pvWh.js"></script>
+<link rel="stylesheet" href="/assets/carte-D2JYMOW-.css"/>
+<script type="module" defer src="/assets/carte-dtxjCCq3.js"></script>
 <link rel="stylesheet" href="/assets/snap-qvkd0SPb.css"/>
   </head>
   <body>
@@ -46,6 +46,7 @@
             placeholder="Rechercher un lieu"
             x-model="query"
             x-on:input="search()"
+            x-on:keydown.escape="escapeSearch($event)"
           />
         </label>
         <button
@@ -63,7 +64,12 @@
           </svg>
           Lieux importants
         </button>
-        <ul class="carte__results" x-show="results.length > 0" x-cloak x-transition:enter="fx-enter" x-transition:enter-start="fx-from" x-transition:enter-end="fx-to" x-transition:leave="fx-leave" x-transition:leave-start="fx-to" x-transition:leave-end="fx-from">
+        
+        <ul class="carte__results" x-show="results.length > 0" x-cloak>
+          <li class="carte__results-head">
+            <span x-text="results.length === 1 ? '1 résultat' : `${results.length} résultats`"></span>
+            <button type="button" class="carte__x" aria-label="Fermer la recherche" title="Fermer la recherche" x-on:click="closeSearch()">×</button>
+          </li>
           <template x-for="r in results" :key="r.id">
             <li>
               <button type="button" x-on:click="openFiche(r.id, true)">
