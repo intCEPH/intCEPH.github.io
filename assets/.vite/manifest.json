@@ -67,7 +67,7 @@
     "src": "node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-vietnamese-wght-normal.woff2"
   },
   "resources/css/admin.css": {
-    "file": "admin-D2SAJEXV.css",
+    "file": "admin-B5-6iR8e.css",
     "name": "admin",
     "names": [
       "admin.css"
@@ -109,7 +109,7 @@
     ]
   },
   "resources/css/ops.css": {
-    "file": "ops-D0iXcNKI.css",
+    "file": "ops-DkwpFPwZ.css",
     "name": "ops",
     "names": [
       "ops.css"
@@ -133,7 +133,7 @@
     ]
   },
   "resources/js/admin.js": {
-    "file": "admin-BTmRP3cH.js",
+    "file": "admin-CfocGZn-.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
